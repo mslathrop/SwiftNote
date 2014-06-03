@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		6640500C193E879D00428301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640500B193E879D00428301 /* AppDelegate.swift */; };
 		6640500F193E879D00428301 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */; };
-		66405011193E879D00428301 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405010193E879D00428301 /* ViewController.swift */; };
 		66405014193E879D00428301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66405012193E879D00428301 /* Main.storyboard */; };
 		66405016193E879D00428301 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66405015193E879D00428301 /* Images.xcassets */; };
 		66405022193E879D00428301 /* SwiftNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405021193E879D00428301 /* SwiftNoteTests.swift */; };
+		66405035193E8EF100428301 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405034193E8EF100428301 /* Note.swift */; };
+		66405037193E905500428301 /* SwiftNoteNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405036193E905500428301 /* SwiftNoteNavigationController.swift */; };
+		66405039193E910C00428301 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405038193E910C00428301 /* NotesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,12 +32,14 @@
 		6640500A193E879D00428301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6640500B193E879D00428301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6640500E193E879D00428301 /* SwiftNote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftNote.xcdatamodel; sourceTree = "<group>"; };
-		66405010193E879D00428301 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		66405013193E879D00428301 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		66405015193E879D00428301 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6640501B193E879D00428301 /* SwiftNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66405020193E879D00428301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66405021193E879D00428301 /* SwiftNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftNoteTests.swift; sourceTree = "<group>"; };
+		66405034193E8EF100428301 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		66405036193E905500428301 /* SwiftNoteNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftNoteNavigationController.swift; sourceTree = "<group>"; };
+		66405038193E910C00428301 /* NotesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,10 +82,12 @@
 			isa = PBXGroup;
 			children = (
 				6640500B193E879D00428301 /* AppDelegate.swift */,
-				66405010193E879D00428301 /* ViewController.swift */,
-				66405012193E879D00428301 /* Main.storyboard */,
+				6640502B193E8D8800428301 /* Controllers */,
+				6640502C193E8DC500428301 /* Handlers */,
+				6640502D193E8DF200428301 /* Models */,
+				6640502E193E8DF900428301 /* Protocols */,
+				6640502F193E8E0000428301 /* Views */,
 				66405015193E879D00428301 /* Images.xcassets */,
-				6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */,
 				66405009193E879D00428301 /* Supporting Files */,
 			);
 			path = SwiftNote;
@@ -110,6 +116,46 @@
 				66405020193E879D00428301 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6640502B193E8D8800428301 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				66405038193E910C00428301 /* NotesTableViewController.swift */,
+				66405036193E905500428301 /* SwiftNoteNavigationController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		6640502C193E8DC500428301 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Handlers;
+			sourceTree = "<group>";
+		};
+		6640502D193E8DF200428301 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */,
+				66405034193E8EF100428301 /* Note.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		6640502E193E8DF900428301 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		6640502F193E8E0000428301 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				66405012193E879D00428301 /* Main.storyboard */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,9 +257,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66405011193E879D00428301 /* ViewController.swift in Sources */,
 				6640500C193E879D00428301 /* AppDelegate.swift in Sources */,
+				66405037193E905500428301 /* SwiftNoteNavigationController.swift in Sources */,
 				6640500F193E879D00428301 /* SwiftNote.xcdatamodeld in Sources */,
+				66405035193E8EF100428301 /* Note.swift in Sources */,
+				66405039193E910C00428301 /* NotesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,9 +377,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -340,6 +390,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -401,6 +452,7 @@
 				66405027193E879D00428301 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		66405028193E879D00428301 /* Build configuration list for PBXNativeTarget "SwiftNoteTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +461,7 @@
 				6640502A193E879D00428301 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
