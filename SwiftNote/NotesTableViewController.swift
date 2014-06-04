@@ -6,96 +6,116 @@
 //  Copyright (c) 2014 Matt Lathrop. All rights reserved.
 //
 
+import CoreData
 import UIKit
 
-class NotesTableViewController: UITableViewController {
-
+class NotesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    var managedObjectContext: NSManagedObjectContext {
+    get {
+        if !_managedObjectContext {
+            _managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        }
+        
+        return _managedObjectContext!
+    }
+    }
+    var _managedObjectContext: NSManagedObjectContext? = nil
+    
+    var fetchedResultsController: NSFetchedResultsController {
+    get {
+        if !_fetchedResultsController {
+            // set up fetch request
+            var fetchRequest = NSFetchRequest()
+            fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
+            
+            // sort by last updated
+            var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            fetchRequest.fetchBatchSize = 20
+            
+            _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext, sectionNameKeyPath: nil, cacheName: "allNotesCache")
+            _fetchedResultsController!.delegate = self
+        }
+        
+        return _fetchedResultsController!;
+    }
+    }
+    var _fetchedResultsController: NSFetchedResultsController? = nil
+    
     init(coder aDecoder: NSCoder!)  {
         super.init(coder: aDecoder)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        self.fetchedResultsController.performFetch(nil)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // #pragma mark - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return self.fetchedResultsController.sections.count
     }
-
+    
     override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
+        return sectionInfo.numberOfObjects
     }
-
-    /*
-    override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+    
+    override func tableView(_: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(kReuseIdentifierNotesTableViewCell, forIndexPath: indexPath) as NotesTableViewCell
+        let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let note = Note.note(managedObject: entity)
+        cell.configure(note: note, indexPath: indexPath)
         return cell
     }
-    */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView?, canEditRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
+        return 70
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView?, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath?) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case NSFetchedResultsChangeInsert:
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        case NSFetchedResultsChangeDelete:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath) {
+        switch type {
+        case NSFetchedResultsChangeInsert:
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        case NSFetchedResultsChangeDelete:
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        case NSFetchedResultsChangeUpdate:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as NotesTableViewCell
+            let note = self.fetchedResultsController.sections[indexPath.section][indexPath.row] as Note
+            cell.configure(note: note, indexPath: indexPath)
+        case NSFetchedResultsChangeMove:
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        default:
+            return
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView?, moveRowAtIndexPath fromIndexPath: NSIndexPath?, toIndexPath: NSIndexPath?) {
-
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView?, canMoveRowAtIndexPath indexPath: NSIndexPath?) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // #pragma mark - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

@@ -63,11 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
     var managedObjectContext: NSManagedObjectContext {
         if !_managedObjectContext {
-            let coordinator = self.persistentStoreCoordinator
-            if coordinator != nil {
-                _managedObjectContext = NSManagedObjectContext()
-                _managedObjectContext!.persistentStoreCoordinator = coordinator
-            }
+                _managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+                _managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                _managedObjectContext!.persistentStoreCoordinator = self.persistentStoreCoordinator
         }
         return _managedObjectContext!
     }
@@ -90,7 +88,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !_persistentStoreCoordinator {
             let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SwiftNote.sqlite")
             var error: NSError? = nil
+            
             _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+            
+            var currentiCloudtoken = NSFileManager.defaultManager().ubiquityIdentityToken
+            
+            var options: NSDictionary? = nil
+            if currentiCloudtoken {
+                let defaultCenter = NSNotificationCenter.defaultCenter()
+                
+                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
+                
+                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
+                
+                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
+                
+                options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true, NSPersistentStoreUbiquitousContentNameKey: "SwiftNoteiCloudStore" ]
+            }
+            else {
+                options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true ]
+            }
+            
             if _persistentStoreCoordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil, error: &error) == nil {
                 /*
                 Replace this implementation with code to handle the error appropriately.
