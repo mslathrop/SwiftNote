@@ -88,7 +88,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
         let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
         let note = Note.noteFromNoteEntity(entity)
-        note.delete()
+        note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
         (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
     }
     

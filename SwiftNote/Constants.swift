@@ -13,6 +13,7 @@ let kEntityNameNoteEntity = "NoteEntity"
 
 // Reuse Identifiers
 let kReuseIdentifierNotesTableViewCell = "ruid_notesTableViewCell"
+let kReuseIdentifierTodayTableViewCell = "ruid_todayViewCell"
 
 // Segue Identifiers
 let kSegueIdentifierNotesTableToNoteDetailAdd = "seg_notesTableToNoteDetail_add"

@@ -17,10 +17,10 @@ protocol NoteProtocol {
     var title: NSString? { get set }
     
     // class methods
-    class func insertNewNote() -> NoteProtocol
+    class func insertNewNoteInManagedObjectContext(managedObjectContext: NSManagedObjectContext!) -> NoteProtocol
     class func noteFromNoteEntity(noteEntity: NSManagedObject) -> NoteProtocol
     
     // instance methods
     func update(#title: String, body: String)
-    func delete()
+    func deleteInManagedObjectContext(managedObjectContext: NSManagedObjectContext!)
 }

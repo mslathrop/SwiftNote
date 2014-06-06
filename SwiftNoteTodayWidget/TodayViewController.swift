@@ -7,10 +7,36 @@
 //
 
 import CoreData
-import UIKit
 import NotificationCenter
+import UIKit
 
-class TodayViewController: UITableViewController, NCWidgetProviding {
+class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedResultsControllerDelegate {
+    
+    // MARK: variables
+    
+    var fetchedResultsController: NSFetchedResultsController {
+    get {
+        if !_fetchedResultsController {
+            // set up fetch request
+            var fetchRequest = NSFetchRequest()
+            fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.managedObjectContext)
+            
+            // sort by last updated
+            var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            fetchRequest.fetchBatchSize = 20
+            
+            _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: "allNotesCache")
+            
+            _fetchedResultsController!.delegate = self
+        }
+        
+        return _fetchedResultsController!;
+    }
+    }
+    var _fetchedResultsController: NSFetchedResultsController? = nil
+    
+    // MARK: view handling
     
     init(coder aDecoder: NSCoder!)  {
         super.init(coder:aDecoder)
@@ -22,20 +48,12 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         tableView.backgroundColor = UIColor.clearColor()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
-        // Perform any setup necessary in order to update the view.
-
-        // If an error is encoutered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-
         completionHandler(NCUpdateResult.NewData)
     }
+    
+    // MARK: table view delegate methods
+    
     
     // MARK - core data methods
     

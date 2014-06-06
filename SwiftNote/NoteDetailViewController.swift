@@ -143,7 +143,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         
         // delete note if both fields are blank
         if (note && trimmedBody.isEmpty && trimmedTitle.isEmpty) {
-            note!.delete()
+            note!.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
         }
         
         // don't do anything if fields are empty
@@ -170,7 +170,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         self.saveNeeded = true
         
         if !note {
-            note = Note.insertNewNote()
+            note = Note.insertNewNoteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
         }
         
         note?.update(title: trimmedTitle, body: trimmedBody)
