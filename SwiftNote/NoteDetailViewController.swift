@@ -37,6 +37,8 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         
         // fix default content inset
         self.bodyTextView.contentInset = UIEdgeInsetsMake(-10,-4,0,-4)
+        
+        self.configureView()
     }
     
     override func viewWillAppear(animated: Bool)  {
@@ -139,6 +141,11 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         var trimmedTitle = self.titleTextField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         var trimmedBody = self.bodyTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
+        // delete note if both fields are blank
+        if (note && trimmedBody.isEmpty && trimmedTitle.isEmpty) {
+            note!.delete()
+        }
+        
         // don't do anything if fields are empty
         if (trimmedBody.isEmpty && trimmedTitle.isEmpty) {
             return
@@ -188,6 +195,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     }
     
     func actionButtonTapped(sender: UIBarButtonItem!) {
+        //TODO:
         //        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
         //        activityIndicator.startAnimating()
         //

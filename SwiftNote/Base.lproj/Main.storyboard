@@ -14,7 +14,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ruid_notesTableViewCell" rowHeight="70" id="ogT-5N-2l4" customClass="NotesTableViewCell" customModule="SwiftNote" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ruid_notesTableViewCell" rowHeight="70" id="ogT-5N-2l4" customClass="NotesTableViewCell" customModule="SwiftNote" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ogT-5N-2l4" id="3gD-4B-pYG">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -36,6 +36,7 @@
                                 <connections>
                                     <outlet property="bodyLabel" destination="i2J-2i-AKc" id="jPY-1j-Nzt"/>
                                     <outlet property="titleLabel" destination="cDR-6B-eKB" id="kkU-Bp-3JW"/>
+                                    <segue destination="SYs-0a-U8z" kind="show" identifier="seg_notesTableToNoteDetail_edit" id="Wrh-bP-Aan"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -47,7 +48,7 @@
                     <navigationItem key="navigationItem" title="SwiftNote" id="f9F-w5-DP4">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="oYl-NO-PaY">
                             <connections>
-                                <segue destination="SYs-0a-U8z" kind="show" identifier="seg_notesTableToNoteDetail" id="rEw-VT-s7O"/>
+                                <segue destination="SYs-0a-U8z" kind="show" identifier="seg_notesTableToNoteDetail_add" id="rEw-VT-s7O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -133,4 +134,7 @@
             <point key="canvasLocation" x="-207" y="211"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Wrh-bP-Aan"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -15,4 +15,5 @@ let kEntityNameNoteEntity = "NoteEntity"
 let kReuseIdentifierNotesTableViewCell = "ruid_notesTableViewCell"
 
 // Segue Identifiers
-let kSegueIdentifierNotesTableToNoteDetail = "seg_notesTableToNoteDetail"
+let kSegueIdentifierNotesTableToNoteDetailAdd = "seg_notesTableToNoteDetail_add"
+let kSegueIdentifierNotesTableToNoteDetailEdit = "seg_notesTableToNoteDetail_edit"

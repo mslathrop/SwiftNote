@@ -53,9 +53,13 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         self.fetchedResultsController.performFetch(nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!)  {
+        if (segue.identifier == kSegueIdentifierNotesTableToNoteDetailEdit) {
+            let entity = self.fetchedResultsController.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as NSManagedObject
+            let note = Note.noteFromNoteEntity(entity)
+            let viewController = segue.destinationViewController as NoteDetailViewController
+            viewController.note = note
+        }
     }
     
     // #pragma mark - Table view data source
