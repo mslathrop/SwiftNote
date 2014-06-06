@@ -11,39 +11,39 @@ import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-                            
+    
     var window: UIWindow?
-
-
+    
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-
+    
     func saveContext () {
         var error: NSError? = nil
         let managedObjectContext = self.managedObjectContext
@@ -56,98 +56,145 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
     // #pragma mark - Core Data stack
-
+    
     // Returns the managed object context for the application.
     // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
     var managedObjectContext: NSManagedObjectContext {
-        if !_managedObjectContext {
-                _managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
-                _managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-                _managedObjectContext!.persistentStoreCoordinator = self.persistentStoreCoordinator
+    if !_managedObjectContext {
+        _managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+        _managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        _managedObjectContext!.persistentStoreCoordinator = self.persistentStoreCoordinator
         }
         return _managedObjectContext!
     }
     var _managedObjectContext: NSManagedObjectContext? = nil
-
+    
     // Returns the managed object model for the application.
     // If the model doesn't already exist, it is created from the application's model.
     var managedObjectModel: NSManagedObjectModel {
-        if !_managedObjectModel {
-            let modelURL = NSBundle.mainBundle().URLForResource("SwiftNote", withExtension: "momd")
-            _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
+    if !_managedObjectModel {
+        let modelURL = NSBundle.mainBundle().URLForResource("SwiftNote", withExtension: "momd")
+        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
         }
         return _managedObjectModel!
     }
     var _managedObjectModel: NSManagedObjectModel? = nil
-
+    
     // Returns the persistent store coordinator for the application.
     // If the coordinator doesn't already exist, it is created and the application's store added to it.
     var persistentStoreCoordinator: NSPersistentStoreCoordinator {
-        if !_persistentStoreCoordinator {
-            let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SwiftNote.sqlite")
-            var error: NSError? = nil
+    if !_persistentStoreCoordinator {
+        let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SwiftNote.sqlite")
+        var error: NSError? = nil
+        
+        _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        
+        var currentiCloudtoken = NSFileManager.defaultManager().ubiquityIdentityToken
+        
+        var options: NSDictionary? = nil
+        if (currentiCloudtoken) {
+            let defaultCenter = NSNotificationCenter.defaultCenter()
             
-            _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+            defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
             
-            var currentiCloudtoken = NSFileManager.defaultManager().ubiquityIdentityToken
+            defaultCenter.addObserver(self, selector: "storesDidChange:", name: NSPersistentStoreCoordinatorStoresDidChangeNotification, object: _persistentStoreCoordinator)
             
-            var options: NSDictionary? = nil
-            if currentiCloudtoken {
-                let defaultCenter = NSNotificationCenter.defaultCenter()
-                
-                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
-                
-                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
-                
-                defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
-                
-                options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true, NSPersistentStoreUbiquitousContentNameKey: "SwiftNoteiCloudStore" ]
-            }
-            else {
-                options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true ]
-            }
+            defaultCenter.addObserver(self, selector: "persistentStoreDidImportUbiquitousContentChanges:", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: _persistentStoreCoordinator)
             
-            if _persistentStoreCoordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil, error: &error) == nil {
-                /*
-                Replace this implementation with code to handle the error appropriately.
-
-                abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                Typical reasons for an error here include:
-                * The persistent store is not accessible;
-                * The schema for the persistent store is incompatible with current managed object model.
-                Check the error message to determine what the actual problem was.
-
-
-                If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-
-                If you encounter schema incompatibility errors during development, you can reduce their frequency by:
-                * Simply deleting the existing store:
-                NSFileManager.defaultManager().removeItemAtURL(storeURL, error: nil)
-
-                * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
-                [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true}
-
-                Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-
-                */
-                //println("Unresolved error \(error), \(error.userInfo)")
-                abort()
-            }
+            /*
+            defaultCenter.addObserverForName(nil, object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
+                    println("$$$$$$$$$$\n\(notification.description)\n")
+                })
+            */
+            
+            options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true, NSPersistentStoreUbiquitousContentNameKey: "SwiftNoteiCloudStore" ]
+        }
+        else {
+            options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true ]
+        }
+        
+        if _persistentStoreCoordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil, error: &error) == nil {
+            /*
+            Replace this implementation with code to handle the error appropriately.
+            
+            abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            
+            Typical reasons for an error here include:
+            * The persistent store is not accessible;
+            * The schema for the persistent store is incompatible with current managed object model.
+            Check the error message to determine what the actual problem was.
+            
+            
+            If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
+            
+            If you encounter schema incompatibility errors during development, you can reduce their frequency by:
+            * Simply deleting the existing store:
+            NSFileManager.defaultManager().removeItemAtURL(storeURL, error: nil)
+            
+            * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
+            [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true}
+            
+            Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
+            
+            */
+            //println("Unresolved error \(error), \(error.userInfo)")
+            abort()
+        }
         }
         return _persistentStoreCoordinator!
     }
     var _persistentStoreCoordinator: NSPersistentStoreCoordinator? = nil
-
+    
     // #pragma mark - Application's Documents directory
-                                    
+    
     // Returns the URL to the application's Documents directory.
     var applicationDocumentsDirectory: NSURL {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.endIndex-1] as NSURL
     }
-
+    
+    // MARK - iCloud handling
+    
+    func persistentStoreDidImportUbiquitousContentChanges(notification: NSNotification!) {
+        println("== persistentStoreDidImportUbiquitousContentChanges ==\n")
+        println(notification.description)
+        
+        let context = self.managedObjectContext
+        
+        context.performBlock(({
+            context.mergeChangesFromContextDidSaveNotification(notification)
+            }))
+    }
+    
+    func storesWillChange(notification: NSNotification!) {
+        println("== storesWillChange ==\n")
+        println(notification.description)
+        
+        let context = self.managedObjectContext
+        
+        context.performBlockAndWait(({
+            var error: NSError? = nil
+            
+            if context.hasChanges {
+                let success = context.save(&error)
+                
+                if (!success && error) {
+                    println(error!.localizedDescription)
+                }
+            }
+            
+            context.reset()
+            }))
+    }
+    
+    func storesDidChange(notification: NSNotification!) {
+        println("== storesDidChange ==\n")
+        println(notification.description)
+        
+        //TODO
+    }
+    
 }
 
