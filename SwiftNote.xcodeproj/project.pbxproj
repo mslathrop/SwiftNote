@@ -19,6 +19,10 @@
 		6640503E193E971C00428301 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503D193E971C00428301 /* Constants.swift */; };
 		66405040193ED49600428301 /* NoteProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503F193ED49600428301 /* NoteProtocol.swift */; };
 		66405043193EEF2700428301 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405042193EEF2700428301 /* NotesTableViewCell.swift */; };
+		666EB8AE1941B1B200733680 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666EB8AD1941B1B200733680 /* NotificationCenter.framework */; };
+		666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666EB8B21941B1B200733680 /* TodayViewController.swift */; };
+		666EB8B51941B1B200733680 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666EB8B41941B1B200733680 /* MainInterface.storyboard */; };
+		666EB8B81941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +33,42 @@
 			remoteGlobalIDString = 66405005193E879D00428301;
 			remoteInfo = SwiftNote;
 		};
+		666EB8B61941B1B200733680 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66404FFE193E879D00428301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 666EB8AA1941B1B200733680;
+			remoteInfo = SwiftNoteTodayWidget;
+		};
+		666EB8B91941B1B200733680 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66404FFE193E879D00428301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 666EB8AA1941B1B200733680;
+			remoteInfo = SwiftNoteTodayWidget;
+		};
+		666EB8BF1941B1C000733680 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66404FFE193E879D00428301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66405005193E879D00428301;
+			remoteInfo = SwiftNote;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		666EB8BE1941B1B200733680 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				666EB8B81941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		66405006193E879D00428301 /* SwiftNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +88,11 @@
 		6640503F193ED49600428301 /* NoteProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteProtocol.swift; sourceTree = "<group>"; };
 		66405042193EEF2700428301 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		666EB8A419419F9800733680 /* SwiftNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SwiftNote.entitlements; sourceTree = "<group>"; };
+		666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		666EB8AD1941B1B200733680 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		666EB8B11941B1B200733680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		666EB8B21941B1B200733680 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		666EB8B41941B1B200733680 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +110,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		666EB8A81941B1B200733680 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				666EB8AE1941B1B200733680 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -74,6 +126,8 @@
 			children = (
 				66405008193E879D00428301 /* SwiftNote */,
 				6640501E193E879D00428301 /* SwiftNoteTests */,
+				666EB8AF1941B1B200733680 /* SwiftNoteTodayWidget */,
+				666EB8AC1941B1B200733680 /* Frameworks */,
 				66405007193E879D00428301 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,6 +137,7 @@
 			children = (
 				66405006193E879D00428301 /* SwiftNote.app */,
 				6640501B193E879D00428301 /* SwiftNoteTests.xctest */,
+				666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,6 +235,32 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
+		666EB8AC1941B1B200733680 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				666EB8AD1941B1B200733680 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		666EB8AF1941B1B200733680 /* SwiftNoteTodayWidget */ = {
+			isa = PBXGroup;
+			children = (
+				666EB8B21941B1B200733680 /* TodayViewController.swift */,
+				666EB8B41941B1B200733680 /* MainInterface.storyboard */,
+				666EB8B01941B1B200733680 /* Supporting Files */,
+			);
+			path = SwiftNoteTodayWidget;
+			sourceTree = "<group>";
+		};
+		666EB8B01941B1B200733680 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				666EB8B11941B1B200733680 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -190,10 +271,13 @@
 				66405002193E879D00428301 /* Sources */,
 				66405003193E879D00428301 /* Frameworks */,
 				66405004193E879D00428301 /* Resources */,
+				666EB8BE1941B1B200733680 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				666EB8B71941B1B200733680 /* PBXTargetDependency */,
+				666EB8BA1941B1B200733680 /* PBXTargetDependency */,
 			);
 			name = SwiftNote;
 			productName = SwiftNote;
@@ -212,11 +296,29 @@
 			);
 			dependencies = (
 				6640501D193E879D00428301 /* PBXTargetDependency */,
+				666EB8C01941B1C000733680 /* PBXTargetDependency */,
 			);
 			name = SwiftNoteTests;
 			productName = SwiftNoteTests;
 			productReference = 6640501B193E879D00428301 /* SwiftNoteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		666EB8AA1941B1B200733680 /* SwiftNoteTodayWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 666EB8BB1941B1B200733680 /* Build configuration list for PBXNativeTarget "SwiftNoteTodayWidget" */;
+			buildPhases = (
+				666EB8A71941B1B200733680 /* Sources */,
+				666EB8A81941B1B200733680 /* Frameworks */,
+				666EB8A91941B1B200733680 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftNoteTodayWidget;
+			productName = SwiftNoteTodayWidget;
+			productReference = 666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -240,6 +342,10 @@
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = 66405005193E879D00428301;
 					};
+					666EB8AA1941B1B200733680 = {
+						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = U379US498J;
+					};
 				};
 			};
 			buildConfigurationList = 66405001193E879D00428301 /* Build configuration list for PBXProject "SwiftNote" */;
@@ -257,6 +363,7 @@
 			targets = (
 				66405005193E879D00428301 /* SwiftNote */,
 				6640501A193E879D00428301 /* SwiftNoteTests */,
+				666EB8AA1941B1B200733680 /* SwiftNoteTodayWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -275,6 +382,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		666EB8A91941B1B200733680 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				666EB8B51941B1B200733680 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +420,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		666EB8A71941B1B200733680 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -312,6 +435,21 @@
 			isa = PBXTargetDependency;
 			target = 66405005193E879D00428301 /* SwiftNote */;
 			targetProxy = 6640501C193E879D00428301 /* PBXContainerItemProxy */;
+		};
+		666EB8B71941B1B200733680 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 666EB8AA1941B1B200733680 /* SwiftNoteTodayWidget */;
+			targetProxy = 666EB8B61941B1B200733680 /* PBXContainerItemProxy */;
+		};
+		666EB8BA1941B1B200733680 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 666EB8AA1941B1B200733680 /* SwiftNoteTodayWidget */;
+			targetProxy = 666EB8B91941B1B200733680 /* PBXContainerItemProxy */;
+		};
+		666EB8C01941B1C000733680 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66405005193E879D00428301 /* SwiftNote */;
+			targetProxy = 666EB8BF1941B1C000733680 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -361,7 +499,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -397,7 +535,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -413,7 +551,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftNote/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -430,7 +568,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftNote/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -473,6 +611,36 @@
 			};
 			name = Release;
 		};
+		666EB8BC1941B1B200733680 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftNoteTodayWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "com.appbrewllc.SwiftNote.$(TARGET_NAME:rfc1034identifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		666EB8BD1941B1B200733680 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = SwiftNoteTodayWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "com.appbrewllc.SwiftNote.$(TARGET_NAME:rfc1034identifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -502,6 +670,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		666EB8BB1941B1B200733680 /* Build configuration list for PBXNativeTarget "SwiftNoteTodayWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				666EB8BC1941B1B200733680 /* Debug */,
+				666EB8BD1941B1B200733680 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
