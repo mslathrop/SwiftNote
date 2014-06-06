@@ -10,7 +10,7 @@ import UIKit
 
 class NotesTableViewCell: UITableViewCell {
     
-    @IBOutlet var titleLabel: UILabel
+    @IBOutlet var titleLabel: UITextField
     
     @IBOutlet var bodyLabel: UILabel
     
