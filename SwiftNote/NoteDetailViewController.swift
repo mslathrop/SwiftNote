@@ -47,7 +47,7 @@ class NoteDetailViewController: UIViewController {
             note = Note.insertNewNote()
         }
         
-        note?.save(title: "test", body: "still testing")
+        note?.update(title: "test", body: "still testing")
     }
     
     override func viewDidDisappear(animated: Bool) {

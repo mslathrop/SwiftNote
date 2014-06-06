@@ -61,8 +61,8 @@ class Note: NoteProtocol {
         let note = Note()
         
         // create new entity
-        var ad = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
-        note.noteEntity = NSEntityDescription.insertNewObjectForEntityForName(kEntityNameNoteEntity, inManagedObjectContext: ad) as NSManagedObject!
+        var managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        note.noteEntity = NSEntityDescription.insertNewObjectForEntityForName(kEntityNameNoteEntity, inManagedObjectContext: managedObjectContext) as NSManagedObject!
         
         // set defaults
         note.createdAt = NSDate.date()
@@ -72,23 +72,20 @@ class Note: NoteProtocol {
         return note
     }
     
-    class func note(#managedObject: NSManagedObject) -> NoteProtocol {
+    class func noteFromNoteEntity(noteEntity: NSManagedObject) -> NoteProtocol {
         let note = Note()
-        note.noteEntity = managedObject
+        note.noteEntity = noteEntity
         return note
     }
     
-    func save(#title: String, body: String)  {
+    func update(#title: String, body: String)  {
         self.title = title;
         self.body = body;
         self.modifiedAt = NSDate.date()        
     }
     
-    func retrive() {
-        
-    }
-    
     func delete() {
-        
+        let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        managedObjectContext.deleteObject(self.noteEntity)
     }
 }

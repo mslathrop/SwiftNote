@@ -72,7 +72,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     override func tableView(_: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(kReuseIdentifierNotesTableViewCell, forIndexPath: indexPath) as NotesTableViewCell
         let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-        let note = Note.note(managedObject: entity)
+        let note = Note.noteFromNoteEntity(entity)
         cell.configure(note: note, indexPath: indexPath)
         return cell
     }
@@ -80,6 +80,15 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
         return 70
     }
+    
+    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+        let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let note = Note.noteFromNoteEntity(entity)
+        note.delete()
+        (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
+    }
+    
+    // MARK - fetched results controller delegate
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         self.tableView.beginUpdates()
