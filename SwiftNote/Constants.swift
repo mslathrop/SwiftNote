@@ -8,6 +8,8 @@
 
 import Foundation
 
+let kAppGroupIdentifier = "group.swiftnote.appbrewllc.com"
+
 // Entity Names
 let kEntityNameNoteEntity = "NoteEntity"
 

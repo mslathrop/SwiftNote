@@ -10,17 +10,12 @@ import UIKit
 
 class NotesTableViewCell: UITableViewCell {
     
-    @IBOutlet var titleLabel: UITextField
+    @IBOutlet var titleLabel: UILabel
     
     @IBOutlet var bodyLabel: UILabel
-    
-    init(style: UITableViewCellStyle, reuseIdentifier: String!)  {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
 
     func configure(#note:NoteProtocol!, indexPath:NSIndexPath!) {
         self.titleLabel.text = note.title;
         self.bodyLabel.text = note.body;
     }
-
 }

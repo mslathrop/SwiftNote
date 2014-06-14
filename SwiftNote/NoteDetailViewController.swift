@@ -70,7 +70,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     func configureView() {
         if note {
             // show the right bar button item
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "actionButtonTapped:")
+            //self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "actionButtonTapped:")
             
             self.titleTextField.text = note!.title
             self.bodyTextView.text = note!.body

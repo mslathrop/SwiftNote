@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		660F9719194C0EA3009D2ED5 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */; };
 		6640500C193E879D00428301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640500B193E879D00428301 /* AppDelegate.swift */; };
 		6640500F193E879D00428301 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */; };
 		66405014193E879D00428301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66405012193E879D00428301 /* Main.storyboard */; };
@@ -23,6 +24,12 @@
 		666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666EB8B21941B1B200733680 /* TodayViewController.swift */; };
 		666EB8B51941B1B200733680 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666EB8B41941B1B200733680 /* MainInterface.storyboard */; };
 		666EB8B81941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */; };
+		666EB8C61942407700733680 /* TodayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666EB8C51942407700733680 /* TodayTableViewCell.swift */; };
+		666EB8CA1942417500733680 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405034193E8EF100428301 /* Note.swift */; };
+		666EB8CB1942417800733680 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503D193E971C00428301 /* Constants.swift */; };
+		666EB8CC1942417A00733680 /* NoteProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503F193ED49600428301 /* NoteProtocol.swift */; };
+		66B045BD19495C1400092238 /* CoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B045BC19495C1400092238 /* CoreDataProvider.swift */; };
+		66B045BE19495C1400092238 /* CoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B045BC19495C1400092238 /* CoreDataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +55,13 @@
 			remoteInfo = SwiftNoteTodayWidget;
 		};
 		666EB8BF1941B1C000733680 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66404FFE193E879D00428301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66405005193E879D00428301;
+			remoteInfo = SwiftNote;
+		};
+		666EB8C11941B1C000733680 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 66404FFE193E879D00428301 /* Project object */;
 			proxyType = 1;
@@ -93,6 +107,9 @@
 		666EB8B11941B1B200733680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		666EB8B21941B1B200733680 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		666EB8B41941B1B200733680 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		666EB8C51942407700733680 /* TodayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTableViewCell.swift; sourceTree = "<group>"; };
+		66B045BC19495C1400092238 /* CoreDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProvider.swift; sourceTree = "<group>"; };
+		66B045BF1949648200092238 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +141,7 @@
 		66404FFD193E879D00428301 = {
 			isa = PBXGroup;
 			children = (
+				666EB8C7194240E300733680 /* Common */,
 				66405008193E879D00428301 /* SwiftNote */,
 				6640501E193E879D00428301 /* SwiftNoteTests */,
 				666EB8AF1941B1B200733680 /* SwiftNoteTodayWidget */,
@@ -146,11 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				6640500B193E879D00428301 /* AppDelegate.swift */,
+				6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */,
 				6640502B193E8D8800428301 /* Controllers */,
-				6640502C193E8DC500428301 /* Handlers */,
-				6640502D193E8DF200428301 /* Models */,
-				6640503C193E96FE00428301 /* Other */,
-				6640502E193E8DF900428301 /* Protocols */,
 				6640502F193E8E0000428301 /* Views */,
 				66405015193E879D00428301 /* Images.xcassets */,
 				66405009193E879D00428301 /* Supporting Files */,
@@ -194,20 +209,13 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		6640502C193E8DC500428301 /* Handlers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Handlers;
-			sourceTree = "<group>";
-		};
 		6640502D193E8DF200428301 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */,
 				66405034193E8EF100428301 /* Note.swift */,
 			);
 			name = Models;
+			path = SwiftNote;
 			sourceTree = "<group>";
 		};
 		6640502E193E8DF900428301 /* Protocols */ = {
@@ -216,6 +224,7 @@
 				6640503F193ED49600428301 /* NoteProtocol.swift */,
 			);
 			name = Protocols;
+			path = SwiftNote;
 			sourceTree = "<group>";
 		};
 		6640502F193E8E0000428301 /* Views */ = {
@@ -231,8 +240,10 @@
 			isa = PBXGroup;
 			children = (
 				6640503D193E971C00428301 /* Constants.swift */,
+				66B045BC19495C1400092238 /* CoreDataProvider.swift */,
 			);
 			name = Other;
+			path = SwiftNote;
 			sourceTree = "<group>";
 		};
 		666EB8AC1941B1B200733680 /* Frameworks */ = {
@@ -246,8 +257,10 @@
 		666EB8AF1941B1B200733680 /* SwiftNoteTodayWidget */ = {
 			isa = PBXGroup;
 			children = (
-				666EB8B21941B1B200733680 /* TodayViewController.swift */,
+				66B045BF1949648200092238 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements */,
 				666EB8B41941B1B200733680 /* MainInterface.storyboard */,
+				666EB8C51942407700733680 /* TodayTableViewCell.swift */,
+				666EB8B21941B1B200733680 /* TodayViewController.swift */,
 				666EB8B01941B1B200733680 /* Supporting Files */,
 			);
 			path = SwiftNoteTodayWidget;
@@ -259,6 +272,16 @@
 				666EB8B11941B1B200733680 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		666EB8C7194240E300733680 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6640502D193E8DF200428301 /* Models */,
+				6640503C193E96FE00428301 /* Other */,
+				6640502E193E8DF900428301 /* Protocols */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +320,7 @@
 			dependencies = (
 				6640501D193E879D00428301 /* PBXTargetDependency */,
 				666EB8C01941B1C000733680 /* PBXTargetDependency */,
+				666EB8C21941B1C000733680 /* PBXTargetDependency */,
 			);
 			name = SwiftNoteTests;
 			productName = SwiftNoteTests;
@@ -336,6 +360,9 @@
 							com.apple.iCloud = {
 								enabled = 1;
 							};
+							com.apple.iOS = {
+								enabled = 1;
+							};
 						};
 					};
 					6640501A193E879D00428301 = {
@@ -345,6 +372,11 @@
 					666EB8AA1941B1B200733680 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = U379US498J;
+						SystemCapabilities = {
+							com.apple.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -409,6 +441,7 @@
 				66405039193E910C00428301 /* NotesTableViewController.swift in Sources */,
 				6640503B193E966800428301 /* NoteDetailViewController.swift in Sources */,
 				66405043193EEF2700428301 /* NotesTableViewCell.swift in Sources */,
+				66B045BD19495C1400092238 /* CoreDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +457,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666EB8CB1942417800733680 /* Constants.swift in Sources */,
+				660F9719194C0EA3009D2ED5 /* SwiftNote.xcdatamodeld in Sources */,
 				666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */,
+				666EB8C61942407700733680 /* TodayTableViewCell.swift in Sources */,
+				66B045BE19495C1400092238 /* CoreDataProvider.swift in Sources */,
+				666EB8CA1942417500733680 /* Note.swift in Sources */,
+				666EB8CC1942417A00733680 /* NoteProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +489,11 @@
 			isa = PBXTargetDependency;
 			target = 66405005193E879D00428301 /* SwiftNote */;
 			targetProxy = 666EB8BF1941B1C000733680 /* PBXContainerItemProxy */;
+		};
+		666EB8C21941B1C000733680 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66405005193E879D00428301 /* SwiftNote */;
+			targetProxy = 666EB8C11941B1C000733680 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -548,6 +592,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SwiftNote/SwiftNote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftNote/Info.plist;
@@ -565,6 +610,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SwiftNote/SwiftNote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftNote/Info.plist;
@@ -614,6 +660,7 @@
 		666EB8BC1941B1B200733680 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SwiftNoteTodayWidget/com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -624,6 +671,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "com.appbrewllc.SwiftNote.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -631,12 +679,14 @@
 		666EB8BD1941B1B200733680 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SwiftNoteTodayWidget/com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftNoteTodayWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "com.appbrewllc.SwiftNote.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -678,6 +728,7 @@
 				666EB8BD1941B1B200733680 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

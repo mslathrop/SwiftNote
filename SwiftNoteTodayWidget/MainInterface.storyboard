@@ -13,14 +13,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ruid_todayViewCell" id="htO-cf-wy3">
+                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ruid_todayViewCell" rowHeight="70" id="htO-cf-wy3" customClass="TodayTableViewCell" customModule="com_appbrewllc_SwiftNote_SwiftNoteTodayWidget" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="htO-cf-wy3" id="UqD-oY-Cze">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ED4-wg-dMT">
+                                            <rect key="frame" x="20" y="14" width="280" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="uRc-w9-VtL"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HU2-AP-H0t">
+                                            <rect key="frame" x="20" y="35" width="280" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ED4-wg-dMT" firstAttribute="leading" secondItem="UqD-oY-Cze" secondAttribute="leading" constant="20" symbolic="YES" id="4Sy-2W-8d9"/>
+                                        <constraint firstItem="HU2-AP-H0t" firstAttribute="top" secondItem="ED4-wg-dMT" secondAttribute="bottom" id="KYJ-qU-nVF"/>
+                                        <constraint firstItem="ED4-wg-dMT" firstAttribute="top" secondItem="UqD-oY-Cze" secondAttribute="top" constant="14" id="Ptv-fR-iDh"/>
+                                        <constraint firstAttribute="trailing" secondItem="ED4-wg-dMT" secondAttribute="trailing" constant="20" symbolic="YES" id="krT-Wh-hak"/>
+                                        <constraint firstItem="ED4-wg-dMT" firstAttribute="leading" secondItem="HU2-AP-H0t" secondAttribute="leading" id="sjB-KN-nKa"/>
+                                        <constraint firstItem="ED4-wg-dMT" firstAttribute="trailing" secondItem="HU2-AP-H0t" secondAttribute="trailing" id="tdV-E7-oY3"/>
+                                        <constraint firstAttribute="bottom" secondItem="HU2-AP-H0t" secondAttribute="bottom" constant="13.5" id="yUe-hf-MRl"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyLabel" destination="HU2-AP-H0t" id="gsI-C3-6TP"/>
+                                    <outlet property="titleLabel" destination="ED4-wg-dMT" id="dQc-nG-nU2"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="M4Y-Lb-cyx" id="0uZ-yo-mR2"/>
+                            <outlet property="delegate" destination="M4Y-Lb-cyx" id="jIn-A2-SNu"/>
+                        </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -29,6 +63,46 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="200"/>
                 </viewController>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tlm-gL-zEr">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <prototypes>
+                        <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ruid_todayViewCell" rowHeight="70" id="vY5-mh-GDv" customClass="TodayTableViewCell" customModule="com_appbrewllc_SwiftNote_SwiftNoteTodayWidget" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vY5-mh-GDv" id="t0i-LL-oM0">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SS-kt-ixz">
+                                        <rect key="frame" x="20" y="14" width="280" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="v34-Al-YjB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i01-8b-ZZ3">
+                                        <rect key="frame" x="20" y="35" width="280" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="i01-8b-ZZ3" firstAttribute="top" secondItem="7SS-kt-ixz" secondAttribute="bottom" id="P9u-bM-gHg"/>
+                                    <constraint firstItem="7SS-kt-ixz" firstAttribute="top" secondItem="t0i-LL-oM0" secondAttribute="top" constant="14" id="U4u-eB-fSr"/>
+                                    <constraint firstAttribute="trailing" secondItem="7SS-kt-ixz" secondAttribute="trailing" constant="20" symbolic="YES" id="Ybf-Xn-6Op"/>
+                                    <constraint firstItem="7SS-kt-ixz" firstAttribute="leading" secondItem="t0i-LL-oM0" secondAttribute="leading" constant="20" symbolic="YES" id="aO9-R9-coW"/>
+                                    <constraint firstAttribute="bottom" secondItem="i01-8b-ZZ3" secondAttribute="bottom" constant="13.5" id="bh5-dz-adm"/>
+                                    <constraint firstItem="7SS-kt-ixz" firstAttribute="leading" secondItem="i01-8b-ZZ3" secondAttribute="leading" id="bnk-hz-R8q"/>
+                                    <constraint firstItem="7SS-kt-ixz" firstAttribute="trailing" secondItem="i01-8b-ZZ3" secondAttribute="trailing" id="kdH-eb-PwL"/>
+                                </constraints>
+                            </tableViewCellContentView>
+                        </tableViewCell>
+                    </prototypes>
+                </tableView>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="516" y="285"/>

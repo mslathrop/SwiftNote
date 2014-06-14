@@ -13,142 +13,126 @@ import UIKit
 class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedResultsControllerDelegate {
     
     // MARK: variables
+    let kMaxCellCount = 2
+    
+    var coreDataProvider: CoreDataProvider
     
     var fetchedResultsController: NSFetchedResultsController {
-    get {
-        if !_fetchedResultsController {
-            // set up fetch request
-            var fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.managedObjectContext)
-            
-            // sort by last updated
-            var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            fetchRequest.fetchBatchSize = 20
-            
-            _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: "allNotesCache")
-            
-            _fetchedResultsController!.delegate = self
+    if !_fetchedResultsController {
+        // set up fetch request
+        var fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.coreDataProvider.managedObjectContext)
+        
+        // sort by last updated
+        var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.fetchBatchSize = kMaxCellCount
+        
+        _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataProvider.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        _fetchedResultsController!.delegate = self
         }
         
         return _fetchedResultsController!;
-    }
     }
     var _fetchedResultsController: NSFetchedResultsController? = nil
     
     // MARK: view handling
     
     init(coder aDecoder: NSCoder!)  {
+        self.coreDataProvider = CoreDataProvider()
         super.init(coder:aDecoder)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.backgroundColor = UIColor.clearColor()
+        
+        self.fetchedResultsController.performFetch(nil)
     }
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         completionHandler(NCUpdateResult.NewData)
     }
     
-    // MARK: table view delegate methods
+    // MARK: Table view data source
     
-    
-    // MARK - core data methods
-    
-    var managedObjectContext: NSManagedObjectContext {
-    if !_managedObjectContext {
-        _managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
-        _managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        _managedObjectContext!.persistentStoreCoordinator = self.persistentStoreCoordinator
-        }
-        return _managedObjectContext!
-    }
-    var _managedObjectContext: NSManagedObjectContext? = nil
-    
-    // Returns the managed object model for the application.
-    // If the model doesn't already exist, it is created from the application's model.
-    var managedObjectModel: NSManagedObjectModel {
-    if !_managedObjectModel {
-        let modelURL = NSBundle.mainBundle().URLForResource("SwiftNote", withExtension: "momd")
-        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
-        }
-        return _managedObjectModel!
-    }
-    var _managedObjectModel: NSManagedObjectModel? = nil
-    
-    // Returns the persistent store coordinator for the application.
-    // If the coordinator doesn't already exist, it is created and the application's store added to it.
-    var persistentStoreCoordinator: NSPersistentStoreCoordinator {
-    if !_persistentStoreCoordinator {
-        let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SwiftNote.sqlite")
-        var error: NSError? = nil
-        
-        _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        
-        var currentiCloudtoken = NSFileManager.defaultManager().ubiquityIdentityToken
-        
-        var options: NSDictionary? = nil
-        if (currentiCloudtoken) {
-            let defaultCenter = NSNotificationCenter.defaultCenter()
-            
-            defaultCenter.addObserver(self, selector: "storesWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: _persistentStoreCoordinator)
-            
-            defaultCenter.addObserver(self, selector: "storesDidChange:", name: NSPersistentStoreCoordinatorStoresDidChangeNotification, object: _persistentStoreCoordinator)
-            
-            defaultCenter.addObserver(self, selector: "persistentStoreDidImportUbiquitousContentChanges:", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: _persistentStoreCoordinator)
-            
-            /*
-            defaultCenter.addObserverForName(nil, object: nil, queue: nil, usingBlock: { (notification: NSNotification!) in
-            println("$$$$$$$$$$\n\(notification.description)\n")
-            })
-            */
-            
-            options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true, NSPersistentStoreUbiquitousContentNameKey: "SwiftNoteiCloudStore" ]
-        }
-        else {
-            options = [ NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true ]
-        }
-        
-        if _persistentStoreCoordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil, error: &error) == nil {
-            /*
-            Replace this implementation with code to handle the error appropriately.
-            
-            abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            
-            Typical reasons for an error here include:
-            * The persistent store is not accessible;
-            * The schema for the persistent store is incompatible with current managed object model.
-            Check the error message to determine what the actual problem was.
-            
-            
-            If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-            
-            If you encounter schema incompatibility errors during development, you can reduce their frequency by:
-            * Simply deleting the existing store:
-            NSFileManager.defaultManager().removeItemAtURL(storeURL, error: nil)
-            
-            * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
-            [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true}
-            
-            Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-            
-            */
-            //println("Unresolved error \(error), \(error.userInfo)")
-            abort()
-        }
-        }
-        return _persistentStoreCoordinator!
-    }
-    var _persistentStoreCoordinator: NSPersistentStoreCoordinator? = nil
-    
-    // #pragma mark - Application's Documents directory
-    
-    // Returns the URL to the application's Documents directory.
-    var applicationDocumentsDirectory: NSURL {
-    let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.endIndex-1] as NSURL
+    override func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
+        return 1
     }
     
+    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
+        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
+        
+        var numRows = sectionInfo.numberOfObjects
+        if (numRows > kMaxCellCount) {
+            numRows = kMaxCellCount
+        }
+        
+        return 5
+    }
+    
+    override func tableView(_: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(kReuseIdentifierTodayTableViewCell, forIndexPath: indexPath) as UITableViewCell
+        cell.textLabel.text = "whyyyy"
+        return cell
+        
+        //let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        //let note = Note.noteFromNoteEntity(entity)
+        //cell.configure(note: note, indexPath: indexPath)
+        //return cell
+    }
+    
+    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
+        return 70
+    }
+    
+    /*
+    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+        let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let note = Note.noteFromNoteEntity(entity)
+        note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
+        (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
+    }
+    */
+    
+    // MARK: - fetched results controller delegate
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case NSFetchedResultsChangeInsert:
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        case NSFetchedResultsChangeDelete:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath) {
+        switch type {
+        case NSFetchedResultsChangeInsert:
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        case NSFetchedResultsChangeDelete:
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        case NSFetchedResultsChangeUpdate:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as TodayTableViewCell
+            let note = self.fetchedResultsController.sections[indexPath.section][indexPath.row] as Note
+            cell.configure(note: note, indexPath: indexPath)
+        case NSFetchedResultsChangeMove:
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
+    }
 }

@@ -92,7 +92,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
     }
     
-    // MARK - fetched results controller delegate
+    // MARK: - fetched results controller delegate
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         self.tableView.beginUpdates()
