@@ -1,59 +1,31 @@
 //
 //  TodayViewController.swift
-//  SwiftNoteTodayWidget
+//  TodayWidget
 //
-//  Created by Matthew Lathrop on 6/6/14.
-//  Copyright (c) 2014 Matt Lathrop. All rights reserved.
+//  Created by Kai Engelhardt on 10.06.14.
+//  Copyright (c) 2014 Kai Engelhardt. All rights reserved.
 //
 
-import CoreData
-import NotificationCenter
 import UIKit
+import NotificationCenter
 
-class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedResultsControllerDelegate {
+class TodayViewController: UITableViewController, NCWidgetProviding {
     
     // MARK: variables
     let kMaxCellCount = 2
-    
-    var coreDataProvider: CoreDataProvider
-    
-    var fetchedResultsController: NSFetchedResultsController {
-    if !_fetchedResultsController {
-        // set up fetch request
-        var fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.coreDataProvider.managedObjectContext)
-        
-        // sort by last updated
-        var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchRequest.fetchBatchSize = kMaxCellCount
-        
-        _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataProvider.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        _fetchedResultsController!.delegate = self
-        }
-        
-        return _fetchedResultsController!;
-    }
-    var _fetchedResultsController: NSFetchedResultsController? = nil
-    
-    // MARK: view handling
-    
-    init(coder aDecoder: NSCoder!)  {
-        self.coreDataProvider = CoreDataProvider()
-        super.init(coder:aDecoder)
-    }
+    let kCellHeight = 70.0
+    let coreDataProvider = CoreDataProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.backgroundColor = UIColor.clearColor()
-        
-        self.fetchedResultsController.performFetch(nil)
     }
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
         completionHandler(NCUpdateResult.NewData)
+    }
+    
+    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
     }
     
     // MARK: Table view data source
@@ -63,76 +35,39 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
     }
     
     override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
+        var ret = 5
         
-        var numRows = sectionInfo.numberOfObjects
-        if (numRows > kMaxCellCount) {
-            numRows = kMaxCellCount
-        }
+        // set the content size
+        var height = CGFloat(ret) * kCellHeight
+        self.preferredContentSize = CGSizeMake(320.0, height)
         
-        return 5
+        return ret
     }
     
     override func tableView(_: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(kReuseIdentifierTodayTableViewCell, forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel.text = "whyyyy"
-        return cell
+        let cell = tableView.dequeueReusableCellWithIdentifier(kReuseIdentifierTodayTableViewCell, forIndexPath: indexPath) as TodayTableViewCell
         
-        //let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-        //let note = Note.noteFromNoteEntity(entity)
-        //cell.configure(note: note, indexPath: indexPath)
-        //return cell
+        // set cell defaults
+        cell.backgroundColor = UIColor.clearColor()
+        cell.selectionStyle = .None
+        
+        cell.titleLabel.text = "Title"
+        cell.bodyLabel.text = "Body"
+        return cell
     }
     
     override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
-        return 70
+        return kCellHeight
     }
     
     /*
     override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-        let note = Note.noteFromNoteEntity(entity)
-        note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
-        (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
+    let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+    let note = Note.noteFromNoteEntity(entity)
+    note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
+    (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
     }
     */
+
     
-    // MARK: - fetched results controller delegate
-    
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        self.tableView.beginUpdates()
-    }
-    
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        switch type {
-        case NSFetchedResultsChangeInsert:
-            self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-        case NSFetchedResultsChangeDelete:
-            self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-        default:
-            return
-        }
-    }
-    
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath) {
-        switch type {
-        case NSFetchedResultsChangeInsert:
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
-        case NSFetchedResultsChangeDelete:
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        case NSFetchedResultsChangeUpdate:
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as TodayTableViewCell
-            let note = self.fetchedResultsController.sections[indexPath.section][indexPath.row] as Note
-            cell.configure(note: note, indexPath: indexPath)
-        case NSFetchedResultsChangeMove:
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
-        default:
-            return
-        }
-    }
-    
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        self.tableView.endUpdates()
-    }
 }

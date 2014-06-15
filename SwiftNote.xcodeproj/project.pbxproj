@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		660F9719194C0EA3009D2ED5 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */; };
+		660F9720194C1F88009D2ED5 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660F971E194C1F88009D2ED5 /* TodayViewController.swift */; };
+		660F9721194C1F88009D2ED5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 660F971F194C1F88009D2ED5 /* MainInterface.storyboard */; };
+		660F9723194D3345009D2ED5 /* TodayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660F9722194D3345009D2ED5 /* TodayTableViewCell.swift */; };
 		6640500C193E879D00428301 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640500B193E879D00428301 /* AppDelegate.swift */; };
 		6640500F193E879D00428301 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6640500D193E879D00428301 /* SwiftNote.xcdatamodeld */; };
 		66405014193E879D00428301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66405012193E879D00428301 /* Main.storyboard */; };
@@ -21,10 +24,7 @@
 		66405040193ED49600428301 /* NoteProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503F193ED49600428301 /* NoteProtocol.swift */; };
 		66405043193EEF2700428301 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405042193EEF2700428301 /* NotesTableViewCell.swift */; };
 		666EB8AE1941B1B200733680 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666EB8AD1941B1B200733680 /* NotificationCenter.framework */; };
-		666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666EB8B21941B1B200733680 /* TodayViewController.swift */; };
-		666EB8B51941B1B200733680 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666EB8B41941B1B200733680 /* MainInterface.storyboard */; };
 		666EB8B81941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */; };
-		666EB8C61942407700733680 /* TodayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666EB8C51942407700733680 /* TodayTableViewCell.swift */; };
 		666EB8CA1942417500733680 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66405034193E8EF100428301 /* Note.swift */; };
 		666EB8CB1942417800733680 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503D193E971C00428301 /* Constants.swift */; };
 		666EB8CC1942417A00733680 /* NoteProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640503F193ED49600428301 /* NoteProtocol.swift */; };
@@ -85,6 +85,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		660F971E194C1F88009D2ED5 /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		660F971F194C1F88009D2ED5 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		660F9722194D3345009D2ED5 /* TodayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTableViewCell.swift; sourceTree = "<group>"; };
 		66405006193E879D00428301 /* SwiftNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6640500A193E879D00428301 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6640500B193E879D00428301 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,9 +108,6 @@
 		666EB8AB1941B1B200733680 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		666EB8AD1941B1B200733680 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		666EB8B11941B1B200733680 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		666EB8B21941B1B200733680 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		666EB8B41941B1B200733680 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		666EB8C51942407700733680 /* TodayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTableViewCell.swift; sourceTree = "<group>"; };
 		66B045BC19495C1400092238 /* CoreDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProvider.swift; sourceTree = "<group>"; };
 		66B045BF1949648200092238 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -258,9 +258,9 @@
 			isa = PBXGroup;
 			children = (
 				66B045BF1949648200092238 /* com.appbrewllc.SwiftNote.SwiftNoteTodayWidget.entitlements */,
-				666EB8B41941B1B200733680 /* MainInterface.storyboard */,
-				666EB8C51942407700733680 /* TodayTableViewCell.swift */,
-				666EB8B21941B1B200733680 /* TodayViewController.swift */,
+				660F971F194C1F88009D2ED5 /* MainInterface.storyboard */,
+				660F9722194D3345009D2ED5 /* TodayTableViewCell.swift */,
+				660F971E194C1F88009D2ED5 /* TodayViewController.swift */,
 				666EB8B01941B1B200733680 /* Supporting Files */,
 			);
 			path = SwiftNoteTodayWidget;
@@ -421,7 +421,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				666EB8B51941B1B200733680 /* MainInterface.storyboard in Resources */,
+				660F9721194C1F88009D2ED5 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,8 +459,8 @@
 			files = (
 				666EB8CB1942417800733680 /* Constants.swift in Sources */,
 				660F9719194C0EA3009D2ED5 /* SwiftNote.xcdatamodeld in Sources */,
-				666EB8B31941B1B200733680 /* TodayViewController.swift in Sources */,
-				666EB8C61942407700733680 /* TodayTableViewCell.swift in Sources */,
+				660F9720194C1F88009D2ED5 /* TodayViewController.swift in Sources */,
+				660F9723194D3345009D2ED5 /* TodayTableViewCell.swift in Sources */,
 				66B045BE19495C1400092238 /* CoreDataProvider.swift in Sources */,
 				666EB8CA1942417500733680 /* Note.swift in Sources */,
 				666EB8CC1942417A00733680 /* NoteProtocol.swift in Sources */,

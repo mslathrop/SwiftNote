@@ -2,7 +2,11 @@
 
 Note taking app with recent notes today widget and iCloud syncing. Written in swift
 
-@@Sharing data between the today widget and app
+##Things to watch out for with the today widget
+
+1. Make sure to set the height using self.preferredContentSize
+
+##Sharing data between the today widget and app
 
 1. Add an app group through the entitlements screen for both the widget and the app
 2. Make sure to specify the same group for each
