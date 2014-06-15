@@ -2,22 +2,49 @@
 //  TodayViewController.swift
 //  TodayWidget
 //
-//  Created by Kai Engelhardt on 10.06.14.
-//  Copyright (c) 2014 Kai Engelhardt. All rights reserved.
+//  Created by Matthew Lathrop on 6/3/14.
+//  Copyright (c) 2014 Matt Lathrop. All rights reserved.
 //
 
-import UIKit
+import CoreData
 import NotificationCenter
+import UIKit
 
-class TodayViewController: UITableViewController, NCWidgetProviding {
+class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedResultsControllerDelegate {
     
     // MARK: variables
-    let kMaxCellCount = 2
+    let kMaxCellCount = 3
+    
     let kCellHeight = 70.0
+    
     let coreDataProvider = CoreDataProvider()
+    
+    var fetchedResultsController: NSFetchedResultsController {
+    if !_fetchedResultsController {
+        // set up fetch request
+        var fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.coreDataProvider.managedObjectContext)
+        
+        // sort by last updated
+        var sortDescriptor = NSSortDescriptor(key: "modifiedAt", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.fetchBatchSize = kMaxCellCount
+        
+        _fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataProvider.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        _fetchedResultsController!.delegate = self
+        }
+        
+        return _fetchedResultsController!
+    }
+    var _fetchedResultsController: NSFetchedResultsController? = nil
+    
+    // MARK: view handling
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.fetchedResultsController.performFetch(nil)
     }
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -35,13 +62,18 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     }
     
     override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        var ret = 5
+        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
         
-        // set the content size
-        var height = CGFloat(ret) * kCellHeight
+        var numRows = sectionInfo.numberOfObjects
+        if (numRows > kMaxCellCount) {
+            numRows = kMaxCellCount
+        }
+        
+        // set the content size. subtract one because i don't want the last separator showing
+        var height = CGFloat(numRows) * kCellHeight - 1.0
         self.preferredContentSize = CGSizeMake(320.0, height)
         
-        return ret
+        return numRows
     }
     
     override func tableView(_: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -51,23 +83,15 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         cell.backgroundColor = UIColor.clearColor()
         cell.selectionStyle = .None
         
-        cell.titleLabel.text = "Title"
-        cell.bodyLabel.text = "Body"
+        // configure the cell
+        let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let note = Note.noteFromNoteEntity(entity)
+        cell.configure(note: note, indexPath: indexPath)
+        
         return cell
     }
     
     override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
         return kCellHeight
     }
-    
-    /*
-    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-    let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-    let note = Note.noteFromNoteEntity(entity)
-    note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
-    (UIApplication.sharedApplication().delegate as AppDelegate).saveContext()
-    }
-    */
-
-    
 }
