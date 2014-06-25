@@ -70,7 +70,7 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
         }
         
         // set the content size. subtract one because i don't want the last separator showing
-        var height = CGFloat(numRows) * kCellHeight - 1.0
+        var height = CGFloat(numRows) * CGFloat(kCellHeight) - 1.0
         self.preferredContentSize = CGSizeMake(320.0, height)
         
         return numRows
@@ -92,6 +92,6 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
     }
     
     override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
-        return kCellHeight
+        return CGFloat(kCellHeight)
     }
 }
