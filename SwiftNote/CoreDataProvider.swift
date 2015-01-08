@@ -10,10 +10,15 @@ import CoreData
 
 class CoreDataProvider: NSObject {
     
+    var applicationDocumentsDirectory: NSURL! = {
+        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        return urls[urls.endIndex-1] as NSURL
+        }()
+    
     func saveContext () {
         var error: NSError? = nil
         let managedObjectContext = self.managedObjectContext
-        if managedObjectContext != nil {
+        if managedObjectContext.save(&error) {
             if managedObjectContext.hasChanges && !managedObjectContext.save(&error) {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -28,7 +33,7 @@ class CoreDataProvider: NSObject {
     // Returns the managed object context for the application.
     // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
     var managedObjectContext: NSManagedObjectContext {
-    if !_managedObjectContext {
+    if _managedObjectContext == nil {
         _managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
         _managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         _managedObjectContext!.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -40,9 +45,9 @@ class CoreDataProvider: NSObject {
     // Returns the managed object model for the application.
     // If the model doesn't already exist, it is created from the application's model.
     var managedObjectModel: NSManagedObjectModel {
-    if !_managedObjectModel {
+    if _managedObjectModel == nil {
         let modelURL = NSBundle.mainBundle().URLForResource("SwiftNote", withExtension: "momd")
-        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL) 
+        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL!)
         }
         return _managedObjectModel!
     }
@@ -51,11 +56,14 @@ class CoreDataProvider: NSObject {
     // Returns the persistent store coordinator for the application.
     // If the coordinator doesn't already exist, it is created and the application's store added to it.
     var persistentStoreCoordinator: NSPersistentStoreCoordinator {
-    if !_persistentStoreCoordinator {
+    if _persistentStoreCoordinator == nil {
         
         // store url should point to the shared container
         var storeURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(kAppGroupIdentifier)
-        storeURL = storeURL.URLByAppendingPathComponent("SwiftNote.sqlite")
+        storeURL = storeURL?.URLByAppendingPathComponent("SwiftNote.sqlite")
+        
+        //store url if you don't want to make a shared container.
+        //var storeURL = applicationDocumentsDirectory.URLByAppendingPathComponent("SwiftNote.sqlite")
         
         var error: NSError? = nil
         
@@ -64,7 +72,7 @@ class CoreDataProvider: NSObject {
         var currentiCloudtoken = NSFileManager.defaultManager().ubiquityIdentityToken
         
         var options: NSDictionary? = nil
-        if (currentiCloudtoken) {
+        if (currentiCloudtoken != nil) {
             let defaultCenter = NSNotificationCenter.defaultCenter()
             
             /*
@@ -109,7 +117,7 @@ class CoreDataProvider: NSObject {
             Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
             
             */
-            //println("Unresolved error \(error), \(error.userInfo)")
+            println("Unresolved error \(error), \(error?.description)")
             abort()
         }
         }
@@ -142,7 +150,7 @@ class CoreDataProvider: NSObject {
             if context.hasChanges {
                 let success = context.save(&error)
                 
-                if (!success && error) {
+                if (success == false && error != nil) {
                     println(error!.localizedDescription)
                 }
             }

@@ -12,11 +12,11 @@ import UIKit
 class NoteDetailViewController: UIViewController, UITextViewDelegate {
     
     // MARK: properties
-    @IBOutlet var titleTextField: UITextField
+    @IBOutlet var titleTextField: UITextField!
     
-    @IBOutlet var bodyTextView: UITextView
+    @IBOutlet var bodyTextView: UITextView!
     
-    @IBOutlet var tapToEditTextField: UITextField
+    @IBOutlet var tapToEditTextField: UITextField!
     
     var note: NoteProtocol?
     
@@ -24,7 +24,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     
     // MARK: methods
     
-    init(coder aDecoder: NSCoder!)  {
+    required init(coder aDecoder: NSCoder)  {
         saveNeeded = false
         
         super.init(coder: aDecoder)
@@ -36,7 +36,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         // fix default content inset
-        self.bodyTextView.contentInset = UIEdgeInsetsMake(-10,-4,0,-4)
+        self.bodyTextView?.contentInset = UIEdgeInsetsMake(-10,-4,0,-4)
         
         self.configureView()
     }
@@ -68,12 +68,12 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     }
     
     func configureView() {
-        if note {
+        if note != nil {
             // show the right bar button item
             //self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "actionButtonTapped:")
             
-            self.titleTextField.text = note!.title
-            self.bodyTextView.text = note!.body
+            self.titleTextField.text = note?.title
+            self.bodyTextView.text = note?.body
         }
         
         self.hideTapToEditLabelIfNeeded()
@@ -100,8 +100,10 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     // MARK - keyboard notifications
     
     func keyboardWillShow(notification: NSNotification) {
-        let keyboardFrame = notification.userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue()
-        let animationDuration = notification.userInfo.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
+
+        let frameValue = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue
+        let keyboardFrame = frameValue.CGRectValue()
+        let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as NSNumber
         
         let isPortrait = UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation)
         let keyboardHeight = isPortrait ? keyboardFrame.size.height : keyboardFrame.size.width
@@ -112,7 +114,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         var scrollIndicatorInsets = self.bodyTextView.scrollIndicatorInsets
         scrollIndicatorInsets.bottom = keyboardHeight
         
-        UIView.animateWithDuration(animationDuration, animations:({
+        UIView.animateWithDuration(animationDuration.doubleValue, animations:({
             self.bodyTextView.contentInset = contentInset
             self.bodyTextView.scrollIndicatorInsets = scrollIndicatorInsets
             })
@@ -120,7 +122,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        let animationDuration = notification.userInfo.objectForKey(UIKeyboardAnimationDurationUserInfoKey).doubleValue
+        let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as NSNumber
         
         var contentInset = self.bodyTextView.contentInset
         contentInset.bottom = 0
@@ -128,7 +130,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         var scrollIndicatorInsets = self.bodyTextView.scrollIndicatorInsets
         scrollIndicatorInsets.bottom = 0
         
-        UIView.animateWithDuration(animationDuration, animations:({
+        UIView.animateWithDuration(animationDuration.doubleValue, animations:({
             self.bodyTextView.contentInset = contentInset
             self.bodyTextView.scrollIndicatorInsets = scrollIndicatorInsets
             })
@@ -142,7 +144,7 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         var trimmedBody = self.bodyTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         // delete note if both fields are blank
-        if (note && trimmedBody.isEmpty && trimmedTitle.isEmpty) {
+        if (note != nil && trimmedBody.isEmpty && trimmedTitle.isEmpty) {
             note!.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
         }
         
@@ -162,14 +164,14 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
         }
         
         // return if values are the same
-        if (note && self.note!.title == self.titleTextField.text && self.note!.body == self.bodyTextView.text) {
+        if (note != nil && self.note!.title == self.titleTextField.text && self.note!.body == self.bodyTextView.text) {
             return
         }
         
         // save is needed by this point
         self.saveNeeded = true
         
-        if !note {
+        if note == nil {
             note = Note.insertNewNoteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
         }
         
@@ -181,12 +183,12 @@ class NoteDetailViewController: UIViewController, UITextViewDelegate {
     }
     
     func showTextViewCaretPosition(textView: UITextView!) {
-        let caretRect = textView.caretRectForPosition(textView.selectedTextRange.end)
+        let caretRect = textView.caretRectForPosition(textView.selectedTextRange!.end)
         textView.scrollRectToVisible(caretRect, animated: false)
     }
     
     func hideTapToEditLabelIfNeeded() {
-        if (self.bodyTextView.text.utf16count > 0) {
+        if (self.bodyTextView.text.utf16Count > 0) {
             self.tapToEditTextField.hidden = true
         }
         else {

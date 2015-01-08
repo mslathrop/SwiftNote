@@ -10,9 +10,9 @@ import UIKit
 
 class NotesTableViewCell: UITableViewCell {
     
-    @IBOutlet var titleLabel: UILabel
+    @IBOutlet var titleLabel: UILabel!
     
-    @IBOutlet var bodyLabel: UILabel
+    @IBOutlet var bodyLabel: UILabel!
 
     func configure(#note:NoteProtocol!, indexPath:NSIndexPath!) {
         self.titleLabel.text = note.title;

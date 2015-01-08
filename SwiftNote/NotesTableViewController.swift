@@ -13,7 +13,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     var managedObjectContext: NSManagedObjectContext {
     get {
-        if !_managedObjectContext {
+        if !(_managedObjectContext != nil) {
             _managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
         }
         
@@ -24,7 +24,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     var fetchedResultsController: NSFetchedResultsController {
     get {
-        if !_fetchedResultsController {
+        if !(_fetchedResultsController != nil) {
             // set up fetch request
             var fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
@@ -43,7 +43,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     }
     var _fetchedResultsController: NSFetchedResultsController? = nil
     
-    init(coder aDecoder: NSCoder!)  {
+    required init(coder aDecoder: NSCoder)  {
         super.init(coder: aDecoder)
     }
     
@@ -53,9 +53,9 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         self.fetchedResultsController.performFetch(nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!)  {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)  {
         if (segue.identifier == kSegueIdentifierNotesTableToNoteDetailEdit) {
-            let entity = self.fetchedResultsController.objectAtIndexPath(self.tableView.indexPathForSelectedRow()) as NSManagedObject
+            let entity = self.fetchedResultsController.objectAtIndexPath(self.tableView.indexPathForSelectedRow()!) as NSManagedObject
             let note = Note.noteFromNoteEntity(entity)
             let viewController = segue.destinationViewController as NoteDetailViewController
             viewController.note = note
@@ -65,11 +65,11 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     // #pragma mark - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
-        return self.fetchedResultsController.sections.count
+        return self.fetchedResultsController.sections!.count
     }
     
     override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
+        let sectionInfo = self.fetchedResultsController.sections?[section] as NSFetchedResultsSectionInfo
         return sectionInfo.numberOfObjects
     }
     
@@ -81,11 +81,11 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         return cell
     }
 
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat  {
         return 70
     }
     
-    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let entity = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
         let note = Note.noteFromNoteEntity(entity)
         note.deleteInManagedObjectContext((UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext)
@@ -100,9 +100,9 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         switch type {
-        case NSFetchedResultsChangeInsert:
+        case .Insert:
             self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-        case NSFetchedResultsChangeDelete:
+        case .Delete:
             self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
         default:
             return
@@ -111,15 +111,15 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath) {
         switch type {
-        case NSFetchedResultsChangeInsert:
+        case .Insert:
             tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
-        case NSFetchedResultsChangeDelete:
+        case .Delete:
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        case NSFetchedResultsChangeUpdate:
+        case .Update:
             let cell = tableView.cellForRowAtIndexPath(indexPath) as NotesTableViewCell
-            let note = self.fetchedResultsController.sections[indexPath.section][indexPath.row] as Note
+            let note = self.fetchedResultsController.sections?[indexPath.section][indexPath.row] as Note
             cell.configure(note: note, indexPath: indexPath)
-        case NSFetchedResultsChangeMove:
+        case .Move:
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
         default:

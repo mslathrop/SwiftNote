@@ -20,7 +20,7 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
     let coreDataProvider = CoreDataProvider()
     
     var fetchedResultsController: NSFetchedResultsController {
-    if !_fetchedResultsController {
+    if !(_fetchedResultsController != nil) {
         // set up fetch request
         var fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName(kEntityNameNoteEntity, inManagedObjectContext: self.coreDataProvider.managedObjectContext)
@@ -61,8 +61,8 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
         return 1
     }
     
-    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections[section] as NSFetchedResultsSectionInfo
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionInfo = self.fetchedResultsController.sections?[section] as NSFetchedResultsSectionInfo
         
         var numRows = sectionInfo.numberOfObjects
         if (numRows > kMaxCellCount) {
@@ -91,7 +91,7 @@ class TodayViewController: UITableViewController, NCWidgetProviding, NSFetchedRe
         return cell
     }
     
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat  {
+    override func tableView(tableView: (UITableView!), heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat  {
         return CGFloat(kCellHeight)
     }
 }
