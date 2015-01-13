@@ -61,12 +61,12 @@ class Note: NoteProtocol {
         let note = Note()
         
         // create new entity
-        note.noteEntity = NSEntityDescription.insertNewObjectForEntityForName(kEntityNameNoteEntity, inManagedObjectContext: managedObjectContext) as NSManagedObject!
+        note.noteEntity = NSEntityDescription.insertNewObjectForEntityForName(kEntityNameNoteEntity, inManagedObjectContext: managedObjectContext) as? NSManagedObject
         
         // set defaults
-        note.createdAt = NSDate.date()
+        note.createdAt = NSDate.init()
         note.modifiedAt = note.createdAt
-        note.entityId =  NSUUID.UUID().UUIDString
+        note.entityId =  NSUUID.init().UUIDString
         
         return note
     }
@@ -80,10 +80,10 @@ class Note: NoteProtocol {
     func update(#title: String, body: String)  {
         self.title = title;
         self.body = body;
-        self.modifiedAt = NSDate.date()        
+        self.modifiedAt = NSDate.init()
     }
     
     func deleteInManagedObjectContext(managedObjectContext: NSManagedObjectContext!) {
-        managedObjectContext.deleteObject(self.noteEntity)
+        managedObjectContext.deleteObject(self.noteEntity!)
     }
 }
